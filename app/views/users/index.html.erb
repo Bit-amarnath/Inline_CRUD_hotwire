@@ -1,6 +1,11 @@
 <div class="w-full">
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Users</h1>
+    <div>
+      <%= form_with url: users_path, method: :get, data: { controller: "form", action: "input->form#submit", turbo_frame: "users", turbo_action: "advance" } do %>
+        <%= text_field_tag "filter", nil, placeholder: "Filter", class: "inline-block rounded-md border border-gray-200 outline-none px-3 py-2  w-full" %>
+      <% end %>
+    </div>
   </div>
   <div class="min-w-full my-8">
     <div class="table font-bold min-w-full">
@@ -11,8 +16,9 @@
       <div></div>
     </div>
     <%= turbo_frame_tag "new-user-form", src: new_user_path %>
-    <div id="users">
+    <%= turbo_frame_tag "users" do %>
       <%= render @users %>
-    </div>
+      <%== pagy_nav(@pagy, link_extra: 'data-turbo-action="advance"') %>
+    <% end %>
   </div>
 </div>
